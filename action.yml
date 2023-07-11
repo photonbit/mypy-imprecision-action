@@ -1,0 +1,51 @@
+name: 'MyPy Check'
+description: 'Perform a MyPy check and compare TIP with threshold and base branch'
+inputs:
+  max_tip:
+    description: 'Maximum allowed Total Imprecise Percent (TIP)'
+    required: true
+    default: '10'
+  mypy_config:
+    description: 'Path to the MyPy configuration file'
+    required: false
+  enable_threshold_check:
+    description: 'Enable/Disable the threshold check'
+    required: false
+    default: 'true'
+  enable_base_tip_check:
+    description: 'Enable/Disable the base branch TIP check'
+    required: false
+    default: 'true'
+  github_token:
+    description: 'GitHub token'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install mypy PyGithub lxml
+      shell: bash
+    - name: Extract TIP and generate annotations
+      id: extract
+      run: |
+        python extract_tip.py ${{ inputs.mypy_config }}
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+        name: mypy-report
+        path: mypy_report/index.txt
+    - name: Compare TIPs
+      if: github.event_name == 'pull_request'
+      run: |
+        python compare_tip.py ${{ steps.extract.outputs.TIP }} ${{ inputs.max_tip }} ${{ inputs.enable_threshold_check }} ${{ inputs.enable_base_tip_check }}
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}

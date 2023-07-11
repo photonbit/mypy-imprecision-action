@@ -1,0 +1,23 @@
+name: Self Test MyPy Action
+
+on:
+    pull_request:
+        types: [opened, synchronize, reopened, edited]
+    push:
+        branches: [main]
+
+jobs:
+  mypy-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run MyPy Action
+        uses: ./
+        with:
+          max_tip: '90'
+          mypy_config: 'mypy.ini'
+          enable_threshold_check: 'true'
+          enable_base_tip_check: 'true'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
