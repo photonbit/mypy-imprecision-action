@@ -17,6 +17,46 @@ readability of their codebase. By comparing the typing imprecision with the prev
 new code's imprecision to be at least equal to the previous one, this action ensures some degree of typing 
 is included. As a result, this promotes incremental improvements and prevents degradation of typing quality.
 
+## Usage
+
+To use this GitHub action in your own repository, add a new workflow file to your .github/workflows directory
+and incorporate this action as shown in the example below.
+
+```yaml
+
+name: MyPy Check
+
+on: [push, pull_request]
+
+jobs:
+  mypy-check:
+    runs-on: ubuntu-latest
+    name: MyPy Check
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: MyPy Check
+        uses: photonbit/mypy-imprecision-action@main
+        with:
+          max_tip: '60'
+          mypy_config: 'path_to_your_mypy.ini'
+          enable_threshold_check: 'true'
+          enable_base_tip_check: 'true'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+``` 
+
+## Inputs
+
+This action requires the following inputs:
+
+- **max_tip**: Maximum allowed Total Imprecise Percent (TIP). The default value is '10'. 
+- **mypy_config**`: Path to the MyPy configuration file in your repository. 
+- **enable_threshold_check**: Enable or disable the threshold check. The default value is 'true'. 
+- **enable_base_tip_check**: Enable or disable the base branch TIP check. The default value is 'true'. 
+- **github_token**: GitHub token. This is required to fetch base branch TIP if base TIP check is enabled. Usually, you can use **secrets.GITHUB_TOKEN**. At
+the moment it is also required to enable **Read repository contents and packages permissions** under the 
+__Workflow permissions__ in the **Settings/Actions/General** tab of your repository.
+
 ## How to Collaborate
 
 We welcome contributions from the community. If you would like to contribute to this action, please fork this repository, make your changes and create a Pull Request. Be sure to include a detailed description of your changes.
