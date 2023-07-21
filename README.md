@@ -57,6 +57,16 @@ This action requires the following inputs:
 the moment it is also required to enable **Read repository contents and packages permissions** under the 
 __Workflow permissions__ in the **Settings/Actions/General** tab of your repository.
 
+## Limitations
+
+When running on a pull request, this action requires that the base branch would have run the action previously
+in order to check the artifact created with the file containing the TIP. Artifacts have a retention period of 90 days
+by default, and this can be changed in the repository settings. If the base branch has not run the action previously,
+or if the retention period has expired, the action will suppose that the base branch has no typing.
+
+If your base branch last run the action more time than the retention time, you can manually trigger the action
+on the base branch to generate or update the artifact and then update the pull request to perform the comparison.
+
 ## How to Collaborate
 
 We welcome contributions from the community. If you would like to contribute to this action, please fork this repository, make your changes and create a Pull Request. Be sure to include a detailed description of your changes.
