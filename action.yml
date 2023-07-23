@@ -1,5 +1,8 @@
 name: 'MyPy Imprecision Check'
 description: 'Perform a MyPy check and compare TIP with threshold and base branch'
+branding:
+  color: 'yellow'
+  icon: 'check-square'
 inputs:
   max_tip:
     description: 'Maximum allowed Total Imprecise Percent (TIP)'
