@@ -1,4 +1,4 @@
-name: 'MyPy Check'
+name: 'MyPy Imprecision Check'
 description: 'Perform a MyPy check and compare TIP with threshold and base branch'
 inputs:
   max_tip:

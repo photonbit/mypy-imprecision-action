@@ -24,7 +24,7 @@ and incorporate this action as shown in the example below.
 
 ```yaml
 
-name: MyPy Check
+name: MyPy Imprecision Check
 
 on:
     pull_request:
