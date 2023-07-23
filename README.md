@@ -26,7 +26,12 @@ and incorporate this action as shown in the example below.
 
 name: MyPy Check
 
-on: [push, pull_request]
+on:
+    pull_request:
+        types: [opened, synchronize, reopened, edited]
+    push:
+        branches: [main]
+    workflow_dispatch:
 
 permissions:
   contents: read
