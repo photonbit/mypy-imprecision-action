@@ -17,7 +17,10 @@ def main() -> None:
     mypy_report_dir = "mypy_report"
     mypy_report_file = f"{mypy_report_dir}/index.txt"
 
-    mypy_status = os.system(f"mypy --install-types --non-interactive --config-file {mypy_config_path} --txt-report {mypy_report_dir} .")
+    mypy_status = os.system(
+        f"python -m mypy --install-types --non-interactive "
+        f"--config-file {mypy_config_path} --txt-report {mypy_report_dir} ."
+    )
 
     if mypy_status != 0:
         print("::error::Mypy failed")
@@ -25,8 +28,8 @@ def main() -> None:
 
     tip = extract_tip(mypy_report_file)
     print(f"TIP={tip}")
-    with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-        print(f'TIP={tip}', file=fh)
+    with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+        print(f"TIP={tip}", file=fh)
 
 
 if __name__ == "__main__":
