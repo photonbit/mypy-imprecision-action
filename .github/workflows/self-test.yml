@@ -7,6 +7,10 @@ on:
         branches: [main]
     workflow_dispatch:
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   mypy-check:
     runs-on: ubuntu-latest
