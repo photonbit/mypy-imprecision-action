@@ -10,7 +10,9 @@ from extract_tip import extract_tip
 
 
 def fetch_artifact(download_url: str) -> str:
-    response = requests.get(download_url, headers={'Authorization': f'token {os.getenv("GITHUB_TOKEN")}'})
+    response = requests.get(
+        download_url, headers={"Authorization": f'token {os.getenv("GITHUB_TOKEN")}'}
+    )
     if response.status_code == 200:
         file_like_object = io.BytesIO(response.content)
 
@@ -30,11 +32,11 @@ def fetch_tip_from_base_branch(owner: str, repo_name: str, base_branch_name: str
         return base_tip
 
     for artifact in workflow_runs[0].get_artifacts():
-        if artifact.name == 'mypy-report':
-            with open('base_mypy_report.txt', 'w') as f:
+        if artifact.name == "mypy-report":
+            with open("base_mypy_report.txt", "w") as f:
                 base_artifact = fetch_artifact(artifact.archive_download_url)
                 f.write(base_artifact)
-                base_tip = extract_tip('base_mypy_report.txt')
+                base_tip = extract_tip("base_mypy_report.txt")
             break
 
     return base_tip
@@ -43,11 +45,11 @@ def fetch_tip_from_base_branch(owner: str, repo_name: str, base_branch_name: str
 def main() -> None:
     pr_tip = float(sys.argv[1])
     threshold = float(sys.argv[2])
-    enable_threshold_check = sys.argv[3] == 'true'
-    enable_base_tip_check = sys.argv[4] == 'true'
+    enable_threshold_check = sys.argv[3] == "true"
+    enable_base_tip_check = sys.argv[4] == "true"
 
     github_repo = os.getenv("GITHUB_REPOSITORY") or sys.exit(1)
-    owner, repo_name = github_repo.split('/')
+    owner, repo_name = github_repo.split("/")
     base_branch_name = os.getenv("GITHUB_BASE_REF") or sys.exit(1)
 
     if enable_threshold_check and pr_tip > threshold:
