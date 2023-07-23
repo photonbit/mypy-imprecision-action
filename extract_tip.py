@@ -6,7 +6,7 @@ import re
 def extract_tip(report_file: str) -> float:
     with open(report_file, "r") as file:
         for line in file.readlines():
-            match = re.search(r"^.*: (\d+\.\d+)%", line)
+            match = re.search(r"^.*Total.*(\d+\.\d+)% imprecise", line)
             if match:
                 return float(match.group(1))
     return 100.0

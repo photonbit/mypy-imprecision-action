@@ -28,6 +28,10 @@ name: MyPy Check
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   mypy-check:
     runs-on: ubuntu-latest
