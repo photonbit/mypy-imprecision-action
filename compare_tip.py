@@ -45,13 +45,17 @@ def fetch_tip_from_base_branch(owner: str, repo_name: str, base_branch_name: str
 def main() -> None:
     pr_tip = float(sys.argv[1])
     threshold = float(sys.argv[2])
-    enable_threshold_check = sys.argv[3] == "true"
-    enable_base_tip_check = sys.argv[4] == "true"
+    sufficient = float(sys.argv[3])
+    enable_threshold_check = sys.argv[4] == "true"
+    enable_base_tip_check = sys.argv[5] == "true"
 
     github_repo = os.getenv("GITHUB_REPOSITORY") or sys.exit(1)
     owner, repo_name = github_repo.split("/")
     base_branch_name = os.getenv("GITHUB_BASE_REF") or sys.exit(1)
 
+    if pr_tip < sufficient:
+        print(f"::info::PR TIP {pr_tip}% is less than the sufficient TIP {sufficient}%")
+        sys.exit(0)
     if enable_threshold_check and pr_tip > threshold:
         print(f"::error::PR TIP {pr_tip}% is greater than the maximum allowed TIP {threshold}%")
         sys.exit(1)

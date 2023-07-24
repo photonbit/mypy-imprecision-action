@@ -48,6 +48,7 @@ jobs:
         uses: photonbit/mypy-imprecision-action@main
         with:
           max_tip: '60'
+          sufficient_tip: '5'
           mypy_config: 'path_to_your_mypy.ini'
           enable_threshold_check: 'true'
           enable_base_tip_check: 'true'
@@ -58,7 +59,9 @@ jobs:
 
 This action requires the following inputs:
 
-- **max_tip**: Maximum allowed Total Imprecise Percent (TIP). The default value is '10'. 
+- **max_tip**: Maximum allowed Total Imprecise Percent (TIP). The default value is '10'.
+- **sufficient_tip**: Lower bound for the Total Imprecise Percent (TIP) to be considered sufficient, if the TIP 
+lower than this amount, the other checks will not take place and the action will succeed. The default value is '0'.
 - **mypy_config**`: Path to the MyPy configuration file in your repository. 
 - **enable_threshold_check**: Enable or disable the threshold check. The default value is 'true'. 
 - **enable_base_tip_check**: Enable or disable the base branch TIP check. The default value is 'true'. 
