@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mypy-imprecision-action"
-version = "0.1.0"
+version = "0.2.0"
 description = " Perform a mypy check and compare Total Imprecission Percent with threshold and the base branch ."
 authors = ["Daniel Moreno Medina <dani@photonbit.es>"]
 repository = "https://github.com/photonbit/mypy-imprecision-action"
