@@ -7,7 +7,11 @@ inputs:
   max_tip:
     description: 'Maximum allowed Total Imprecise Percent (TIP)'
     required: true
-    default: '10'
+    default: '0'
+  sufficient_tip:
+    description: 'Sufficient Total Imprecise Percent (TIP)'
+    required: false
+    default: '5'
   mypy_config:
     description: 'Path to the MyPy configuration file'
     required: false
@@ -60,7 +64,7 @@ runs:
     - name: Compare TIPs
       if: github.event_name == 'pull_request'
       run: |
-        poetry run python compare_tip.py ${{ steps.extract.outputs.TIP }} ${{ inputs.max_tip }} ${{ inputs.enable_threshold_check }} ${{ inputs.enable_base_tip_check }}
+        poetry run python compare_tip.py ${{ steps.extract.outputs.TIP }} ${{ inputs.max_tip }} ${{ inputs.sufficient_tip }} ${{ inputs.enable_threshold_check }} ${{ inputs.enable_base_tip_check }}
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
